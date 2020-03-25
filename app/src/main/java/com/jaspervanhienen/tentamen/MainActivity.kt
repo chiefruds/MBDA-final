@@ -10,6 +10,10 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 
+import android.graphics.Color
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,10 +21,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         this.getPokemon()
+
+        recyclerView_main.layoutManager = LinearLayoutManager(this)
+        recyclerView_main.adapter = MainAdapter()
     }
 
     private fun getPokemon() {
-        val textView = findViewById<TextView>(R.id.pokemon)
+        //val textView = findViewById<TextView>(R.id.pokemon)
 
         val queue = Volley.newRequestQueue(this)
         val url = "https://pokeapi.co/api/v2/pokemon"
@@ -32,9 +39,9 @@ class MainActivity : AppCompatActivity() {
                 val pokemon = JSONObject(response)
                 val singlePokemon = pokemon.getJSONArray("results").getJSONObject(0).getString("name")
                 Log.d("pokemon", singlePokemon)
-                textView.text = "Response is: " + singlePokemon
+                //textView.text = "Response is: " + singlePokemon
             },
-            Response.ErrorListener { textView.text = "That didn't work!" })
+            Response.ErrorListener { Log.e("api error","That didn't work!") })
         
         queue.add(stringRequest)
 
