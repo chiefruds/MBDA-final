@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jaspervanhienen.tentamen.Model.Pokemon
 import kotlinx.android.synthetic.main.pokemon_row.view.*
 
-class MainAdapter: RecyclerView.Adapter<MainViewHolder>() {
+class MainAdapter(private val pokemonlist : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>() {
 
-    private val names = listOf("pikachu", "turtwig", "blastoise", "afro")
+    private val names = pokemonlist
 
     override fun getItemCount(): Int {
         return this.names.count()
@@ -22,7 +23,7 @@ class MainAdapter: RecyclerView.Adapter<MainViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.itemView.textView_pokemon_name.text = names[position]
+        holder.itemView.textView_pokemon_name.text = names[position].getName()
     }
 
 

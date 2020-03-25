@@ -2,48 +2,76 @@ package com.jaspervanhienen.tentamen
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONObject
-
-import android.graphics.Color
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.jaspervanhienen.tentamen.Model.Pokemon
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
+    var pokemonlist = mutableListOf<Pokemon>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        this.getPokemon()
 
-        recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter = MainAdapter()
+        DoAsync {
+            getPokemon()
+        }
     }
 
+    //fetch pokemon from api
     private fun getPokemon() {
-        //val textView = findViewById<TextView>(R.id.pokemon)
-
         val queue = Volley.newRequestQueue(this)
         val url = "https://pokeapi.co/api/v2/pokemon"
+        var pokemonResult : JSONObject
 
-        // Request a string response from the provided URL.
-        val stringRequest = StringRequest(Request.Method.GET, url,
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
             Response.Listener<String> { response ->
-                // Display the first 500 characters of the response string.
-                val pokemon = JSONObject(response)
-                val singlePokemon = pokemon.getJSONArray("results").getJSONObject(0).getString("name")
-                Log.d("pokemon", singlePokemon)
-                //textView.text = "Response is: " + singlePokemon
+                pokemonResult = JSONObject(response)
+                this.generatePokemon(pokemonResult)
             },
             Response.ErrorListener { Log.e("api error","That didn't work!") })
-        
+
         queue.add(stringRequest)
 
+
     }
+
+    //loop over pokemon JSON and add pokemon objects to
+    private fun generatePokemon(pokemonResult: JSONObject) {
+        this.pokemonlist = mutableListOf<Pokemon>()
+        val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
+        for (i in 0 until pokemonArray.length()) {
+            try {
+                val pokemon = pokemonArray.getJSONObject(i)
+                // Pulling items from the array
+                val name = pokemon.getString("name")
+                val url = pokemon.getString("url")
+                val newPokemon = Pokemon(name, url)
+                Log.d("pokemon", pokemon.getString("name"))
+                this.pokemonlist.add(newPokemon)
+
+            } catch (e: JSONException) {
+                Log.e("error", e.message)
+            }
+        }
+        Log.d("pokeList: ", "c: " + this.pokemonlist[6].getName())
+        this.setRecycler()
+    }
+
+    private fun setRecycler() {
+        recyclerView_main.layoutManager = LinearLayoutManager(this)
+        recyclerView_main.adapter = MainAdapter(this.pokemonlist)
+    }
+
 }
+
