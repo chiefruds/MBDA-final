@@ -1,13 +1,22 @@
 package com.jaspervanhienen.tentamen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.jaspervanhienen.tentamen.Model.Pokemon
 import kotlinx.android.synthetic.main.pokemon_details.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 class DetailsActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +41,43 @@ class DetailsActivity: AppCompatActivity() {
 
         override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {}
 
+    }
+
+    private fun getPokemonDetails() {
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://pokeapi.co/api/v2/pokemon"
+        var pokemonResult : JSONObject
+
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener<String> { response ->
+                pokemonResult = JSONObject(response)
+                this.generateDetails(pokemonResult)
+            },
+            Response.ErrorListener { Log.e("api error","That didn't work!") })
+
+        queue.add(stringRequest)
+    }
+
+    private fun generateDetails(pokemonResult : JSONObject) {
+        val pokemonDetail : PokemonDetail
+        val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
+        for (i in 0 until pokemonArray.length()) {
+            try {
+                val pokemon = pokemonArray.getJSONObject(i)
+                // Pulling items from the array
+                val name = pokemon.getString("name")
+                val url = pokemon.getString("url")
+                val newPokemon = Pokemon(name, url)
+                Log.d("pokemon", pokemon.getString("name"))
+                pokemonlist.add(newPokemon)
+
+            } catch (e: JSONException) {
+                Log.e("error", e.message)
+            }
+        }
+        Log.d("pokeList: ", "c: " + pokemonlist[6].getName())
+        this.setRecycler(pokemonlist)
     }
 
     private class DetailViewHolder(view: View): RecyclerView.ViewHolder(view) {}
