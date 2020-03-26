@@ -8,7 +8,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.jaspervanhienen.tentamen.Model.Pokemon
+import com.jaspervanhienen.tentamen.model.Pokemon
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException

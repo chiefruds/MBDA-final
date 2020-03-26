@@ -1,15 +1,15 @@
-package com.jaspervanhienen.tentamen.Model
+package com.jaspervanhienen.tentamen.model
 
 import org.json.JSONObject
 
-class PokemonDetail(name: String, baseExperience : Int, height: Int, id: Int, sprites: JSONObject) {
-    private var name = name
-    private var baseExperience = baseExperience
-    private var height = height
-    private var id = id
-    private var sprites = sprites
-
-    public val count = 5
+class PokemonDetail(
+    private var name: String,
+    private var baseExperience: Int,
+    private var height: Int,
+    private var id: Int,
+    private var sprites: JSONObject
+) {
+    val count = 5
 
     fun getName() : String {
         return this.name
