@@ -1,6 +1,7 @@
 package com.jaspervanhienen.tentamen
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,8 @@ class MainAdapter(private val pokemonList : MutableList<Pokemon>): RecyclerView.
         holder.itemView.textView_pokemon_name.text = this.pokemonList[position].getName()
         //holder.itemView.imageView.setImageURI(Uri.parse(url));
         holder.url = url
+        val image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        holder.itemView.imageView.setImageBitmap(bitmap);
     }
 }
 
