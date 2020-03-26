@@ -6,6 +6,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.jaspervanhienen.tentamen.model.Pokemon
+import com.squareup.picasso.Picasso
 import com.jaspervanhienen.tentamen.viewholder.MainViewHolder
 import kotlinx.android.synthetic.main.pokemon_row.view.*
 import java.util.*
@@ -27,9 +28,11 @@ class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val url = this.pokemonList[position].getUrl()
+        val image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + (position + 1) + ".png"
         holder.itemView.textView_pokemon_name.text = this.pokemonList[position].getName()
-        //holder.itemView.imageView.setImageURI(Uri.parse(url));
+        Picasso.get().load(image).into(holder.itemView.imageView);
         holder.url = url
+
     }
 
     override fun getFilter(): Filter {
