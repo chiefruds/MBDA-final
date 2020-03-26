@@ -54,14 +54,12 @@ class MainActivity : AppCompatActivity() {
                 val name = pokemon.getString("name")
                 val url = pokemon.getString("url")
                 val newPokemon = Pokemon(name, url)
-                Log.d("pokemon", pokemon.getString("name"))
                 pokemonlist.add(newPokemon)
 
             } catch (e: JSONException) {
                 Log.e("error", e.message)
             }
         }
-        Log.d("pokeList: ", "c: " + pokemonlist[6].getName())
         this.setRecycler(pokemonlist)
     }
 
