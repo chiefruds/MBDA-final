@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     //loop over pokemon JSON and add pokemon objects to
     private fun generatePokemon(pokemonResult: JSONObject) {
-        val pokemonlist = mutableListOf<Pokemon>()
+        val pokemonList = mutableListOf<Pokemon>()
         val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
         for (i in 0 until pokemonArray.length()) {
             try {
@@ -54,19 +54,19 @@ class MainActivity : AppCompatActivity() {
                 val name = pokemon.getString("name")
                 val url = pokemon.getString("url")
                 val newPokemon = Pokemon(name, url)
-                pokemonlist.add(newPokemon)
+                pokemonList.add(newPokemon)
 
             } catch (e: JSONException) {
                 Log.e("error", e.message)
             }
         }
-        this.setRecycler(pokemonlist)
+        this.setRecycler(pokemonList)
     }
 
     //set the recycler view
-    private fun setRecycler(pokemonlist: MutableList<Pokemon>) {
+    private fun setRecycler(pokemonList: MutableList<Pokemon>) {
         recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter = MainAdapter(pokemonlist)
+        recyclerView_main.adapter = MainAdapter(pokemonList)
     }
 
 }
