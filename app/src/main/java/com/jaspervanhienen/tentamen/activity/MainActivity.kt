@@ -1,13 +1,18 @@
-package com.jaspervanhienen.tentamen
+package com.jaspervanhienen.tentamen.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.jaspervanhienen.tentamen.DoAsync
+import com.jaspervanhienen.tentamen.MainAdapter
+import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.Pokemon
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
@@ -24,6 +29,34 @@ class MainActivity : AppCompatActivity() {
         DoAsync {
             getPokemon()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+
+        val searchItem = menu?.findItem(R.id.search_bar)
+        val searchView = searchItem?.actionView as SearchView
+
+        // Set listener for search bar
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filter(newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                filter(query)
+                return false
+            }
+
+            private fun filter(query: String?) {
+                val adapter = recyclerView_main.adapter as MainAdapter
+                adapter.filter.filter(query)
+            }
+        })
+
+        return true
     }
 
     //fetch pokemon from api
@@ -66,7 +99,8 @@ class MainActivity : AppCompatActivity() {
     //set the recycler view
     private fun setRecycler(pokemonList: MutableList<Pokemon>) {
         recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter = MainAdapter(pokemonList)
+        recyclerView_main.adapter =
+            MainAdapter(pokemonList)
     }
 
 }

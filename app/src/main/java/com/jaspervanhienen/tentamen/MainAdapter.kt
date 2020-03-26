@@ -1,14 +1,19 @@
 package com.jaspervanhienen.tentamen
 
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.jaspervanhienen.tentamen.model.Pokemon
+import com.jaspervanhienen.tentamen.viewholder.MainViewHolder
 import kotlinx.android.synthetic.main.pokemon_row.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class MainAdapter(private val pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>() {
+class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
+    private val pokemonListCopy: MutableList<Pokemon> = pokemonList.toMutableList()
+
     override fun getItemCount(): Int {
         return this.pokemonList.count()
     }
@@ -26,16 +31,36 @@ class MainAdapter(private val pokemonList : MutableList<Pokemon>): RecyclerView.
         //holder.itemView.imageView.setImageURI(Uri.parse(url));
         holder.url = url
     }
-}
 
-class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    var url = ""
+    override fun getFilter(): Filter {
+        return object: Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filteredList: MutableList<Pokemon> = mutableListOf()
 
-    init {
-        view.setOnClickListener {
-            val intent = Intent(view.context, DetailsActivity::class.java)
-            intent.putExtra("URL", url)
-            view.context.startActivity(intent)
+                if(constraint == null || constraint.isEmpty()) {
+                    filteredList.addAll(pokemonListCopy)
+                } else {
+                    val pattern = constraint.toString().toLowerCase(Locale.ROOT).trim()
+
+                    pokemonList.forEach {
+                        if(it.getName().toLowerCase(Locale.ROOT).contains(pattern)) {
+                            filteredList.add(it)
+                        }
+                    }
+                }
+
+                val results = FilterResults()
+                results.values = filteredList
+
+                return results
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                pokemonList.clear()
+                pokemonList.addAll(results?.values as ArrayList<out Pokemon>)
+                notifyDataSetChanged()
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.jaspervanhienen.tentamen
+package com.jaspervanhienen.tentamen.activity
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,8 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.jaspervanhienen.tentamen.DoAsync
+import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.PokemonDetail
 import kotlinx.android.synthetic.main.pokemon_detail_row.view.*
 import kotlinx.android.synthetic.main.pokemon_details.*
@@ -36,7 +38,9 @@ class DetailsActivity: AppCompatActivity() {
 
             Log.d("name is: ", pokemonDetail.getName())
 
-            return DetailViewHolder(detailRow)
+            return DetailViewHolder(
+                detailRow
+            )
         }
 
         override fun getItemCount(): Int {
@@ -98,7 +102,10 @@ class DetailsActivity: AppCompatActivity() {
 
     private fun setRecycler(pokemonDetail: PokemonDetail) {
         recyclerView_details.layoutManager = LinearLayoutManager(this)
-        recyclerView_details.adapter = DetailAdapter(pokemonDetail)
+        recyclerView_details.adapter =
+            DetailAdapter(
+                pokemonDetail
+            )
     }
 
     private class DetailViewHolder(view: View): RecyclerView.ViewHolder(view) {}
