@@ -30,9 +30,8 @@ class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.
         val url = this.pokemonList[position].getUrl()
         val image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + (position + 1) + ".png"
         holder.itemView.textView_pokemon_name.text = this.pokemonList[position].getName()
-        Picasso.get().load(image).into(holder.itemView.imageView);
+        Picasso.get().load(image).into(holder.itemView.imageView)
         holder.url = url
-
     }
 
     override fun getFilter(): Filter {
