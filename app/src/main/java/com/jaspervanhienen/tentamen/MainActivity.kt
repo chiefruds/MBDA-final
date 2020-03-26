@@ -16,7 +16,6 @@ import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
-    var pokemonlist = mutableListOf<Pokemon>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +41,11 @@ class MainActivity : AppCompatActivity() {
             Response.ErrorListener { Log.e("api error","That didn't work!") })
 
         queue.add(stringRequest)
-
-
     }
 
     //loop over pokemon JSON and add pokemon objects to
     private fun generatePokemon(pokemonResult: JSONObject) {
-        this.pokemonlist = mutableListOf<Pokemon>()
+        val pokemonlist = mutableListOf<Pokemon>()
         val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
         for (i in 0 until pokemonArray.length()) {
             try {
@@ -57,20 +54,19 @@ class MainActivity : AppCompatActivity() {
                 val name = pokemon.getString("name")
                 val url = pokemon.getString("url")
                 val newPokemon = Pokemon(name, url)
-                Log.d("pokemon", pokemon.getString("name"))
-                this.pokemonlist.add(newPokemon)
+                pokemonlist.add(newPokemon)
 
             } catch (e: JSONException) {
                 Log.e("error", e.message)
             }
         }
-        Log.d("pokeList: ", "c: " + this.pokemonlist[6].getName())
-        this.setRecycler()
+        this.setRecycler(pokemonlist)
     }
 
-    private fun setRecycler() {
+    //set the recycler view
+    private fun setRecycler(pokemonlist: MutableList<Pokemon>) {
         recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter = MainAdapter(this.pokemonlist)
+        recyclerView_main.adapter = MainAdapter(pokemonlist)
     }
 
 }
