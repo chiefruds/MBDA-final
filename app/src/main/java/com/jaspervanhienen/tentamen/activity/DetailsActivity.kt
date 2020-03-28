@@ -1,6 +1,5 @@
 package com.jaspervanhienen.tentamen.activity
 
-import com.jaspervanhienen.tentamen.adapter.DetailAdapter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jaspervanhienen.tentamen.DoAsync
 import com.jaspervanhienen.tentamen.R
+import com.jaspervanhienen.tentamen.adapter.DetailAdapter
 import com.jaspervanhienen.tentamen.model.PokemonDetail
 import kotlinx.android.synthetic.main.pokemon_details.*
 import org.json.JSONObject

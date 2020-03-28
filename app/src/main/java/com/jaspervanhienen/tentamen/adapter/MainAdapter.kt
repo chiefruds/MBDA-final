@@ -1,19 +1,18 @@
-package com.jaspervanhienen.tentamen
-
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.Pokemon
-import com.squareup.picasso.Picasso
 import com.jaspervanhienen.tentamen.viewholder.MainViewHolder
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.pokemon_row.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
+class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(),
+    Filterable {
     private val pokemonListCopy: MutableList<Pokemon> = pokemonList.toMutableList()
 
     override fun getItemCount(): Int {

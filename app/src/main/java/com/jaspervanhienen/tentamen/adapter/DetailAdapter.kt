@@ -1,12 +1,12 @@
 package com.jaspervanhienen.tentamen.adapter
 
-import com.jaspervanhienen.tentamen.viewholder.DetailViewHolder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.PokemonDetail
+import com.jaspervanhienen.tentamen.viewholder.DetailViewHolder
 import kotlinx.android.synthetic.main.pokemon_detail_row.view.*
 
 class DetailAdapter(private val pokemonDetail: PokemonDetail): RecyclerView.Adapter<DetailViewHolder>() {

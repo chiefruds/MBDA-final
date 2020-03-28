@@ -1,5 +1,6 @@
 package com.jaspervanhienen.tentamen.activity
 
+import MainAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -11,7 +12,6 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jaspervanhienen.tentamen.DoAsync
-import com.jaspervanhienen.tentamen.MainAdapter
 import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.Pokemon
 import kotlinx.android.synthetic.main.activity_main.*
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //loop over pokemon JSON and add pokemon objects to
-    private fun generatePokemon(pokemonResult: JSONObject) {
+    private fun generatePokemon(pokemonResult: JSONObject): MutableList<Pokemon> {
         val pokemonList = mutableListOf<Pokemon>()
         val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
         for (i in 0 until pokemonArray.length()) {
@@ -92,7 +92,8 @@ class MainActivity : AppCompatActivity() {
                 Log.e("error", e.message)
             }
         }
-        this.setRecycler(pokemonList)
+
+        return pokemonList
     }
 
     //set the recycler view
