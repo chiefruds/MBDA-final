@@ -1,6 +1,6 @@
 package com.jaspervanhienen.tentamen.activity
 
-import MainAdapter
+import com.jaspervanhienen.tentamen.adapter.MainAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu

@@ -1,3 +1,5 @@
+package com.jaspervanhienen.tentamen.adapter
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -11,8 +13,7 @@ import kotlinx.android.synthetic.main.pokemon_row.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(),
-    Filterable {
+class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
     private val pokemonListCopy: MutableList<Pokemon> = pokemonList.toMutableList()
 
     override fun getItemCount(): Int {
