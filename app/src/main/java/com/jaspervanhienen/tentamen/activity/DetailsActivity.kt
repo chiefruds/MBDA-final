@@ -12,7 +12,9 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.jaspervanhienen.tentamen.DetailCallback
 import com.jaspervanhienen.tentamen.DoAsync
+import com.jaspervanhienen.tentamen.PokemonService
 import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.PokemonDetail
 import kotlinx.android.synthetic.main.pokemon_detail_row.view.*
@@ -20,13 +22,14 @@ import kotlinx.android.synthetic.main.pokemon_details.*
 import org.json.JSONObject
 
 class DetailsActivity: AppCompatActivity() {
+    private var pokemonService = PokemonService(this);
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pokemon_details)
         val url = intent.getStringExtra("URL") as String
 
         DoAsync {
-            this.getPokemonDetails(url)
+            this.setRecycler(url)
         }
     }
 
@@ -71,41 +74,17 @@ class DetailsActivity: AppCompatActivity() {
 
     }
 
-    private fun getPokemonDetails(url : String) {
-        val queue = Volley.newRequestQueue(this)
-        var pokemonResult : JSONObject
-        Log.d("detail url", url)
-
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            Response.Listener { response ->
-                pokemonResult = JSONObject(response)
-                this.generateDetails(pokemonResult)
-            },
-            Response.ErrorListener { Log.e("api error","That didn't work!") })
-
-        queue.add(stringRequest)
-
-    }
-
-    private fun generateDetails(pokemonResult : JSONObject) {
-        this.setRecycler(
-            PokemonDetail(
-                pokemonResult.getString("name"),
-                pokemonResult.getInt("base_experience"),
-                pokemonResult.getInt("height"),
-                pokemonResult.getInt("id"),
-                pokemonResult.getJSONObject("sprites")
-            )
-        )
-    }
-
-    private fun setRecycler(pokemonDetail: PokemonDetail) {
-        recyclerView_details.layoutManager = LinearLayoutManager(this)
-        recyclerView_details.adapter =
-            DetailAdapter(
-                pokemonDetail
-            )
+    private fun setRecycler(url: String) {
+        val context = this
+        this.pokemonService.getPokemonDetails(url, object : DetailCallback {
+            override fun onSuccess(result: PokemonDetail) {
+                recyclerView_details.layoutManager = LinearLayoutManager(context)
+                recyclerView_details.adapter =
+                    DetailAdapter(
+                        result
+                    )
+            }
+        })
     }
 
     private class DetailViewHolder(view: View): RecyclerView.ViewHolder(view) {}

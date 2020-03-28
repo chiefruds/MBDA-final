@@ -9,6 +9,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jaspervanhienen.tentamen.model.Pokemon
+import com.jaspervanhienen.tentamen.model.PokemonDetail
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -16,7 +17,7 @@ import org.json.JSONObject
 class PokemonService//fetch pokemon from api
     (private var context: Activity) {
 
-    public fun getPokemon(callback : VolleyCallback) {
+    public fun getPokemon(callback : PokemonListCallback) {
         val queue = Volley.newRequestQueue(this.context)
         val url = "https://pokeapi.co/api/v2/pokemon"
         var pokemonResult : MutableList<Pokemon>
@@ -53,5 +54,34 @@ class PokemonService//fetch pokemon from api
             }
         }
         return pokemonList
+    }
+
+    //details
+    public fun getPokemonDetails(url : String, callback: DetailCallback) {
+        val queue = Volley.newRequestQueue(this.context)
+        var pokemonResult : JSONObject
+        Log.d("detail url", url)
+
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener { response ->
+                pokemonResult = JSONObject(response)
+                callback.onSuccess(this.generateDetails(pokemonResult))
+            },
+            Response.ErrorListener { Log.e("api error","That didn't work!") })
+
+        queue.add(stringRequest)
+
+    }
+
+    private fun generateDetails(pokemonResult : JSONObject) : PokemonDetail{
+
+         return PokemonDetail(
+                pokemonResult.getString("name"),
+                pokemonResult.getInt("base_experience"),
+                pokemonResult.getInt("height"),
+                pokemonResult.getInt("id"),
+                pokemonResult.getJSONObject("sprites")
+            )
     }
 }

@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     //set the recycler view
     private fun setRecycler() {
         var context = this
-        this.pokemonService.getPokemon(object : VolleyCallback {
+        this.pokemonService.getPokemon(object : PokemonListCallback {
             override fun onSuccess(pokemonList: MutableList<Pokemon>) {
                 recyclerView_main.layoutManager = LinearLayoutManager(context)
                 recyclerView_main.adapter = MainAdapter(pokemonList)
