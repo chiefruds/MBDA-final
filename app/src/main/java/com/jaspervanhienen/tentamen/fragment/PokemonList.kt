@@ -1,5 +1,6 @@
 package com.jaspervanhienen.tentamen.fragment
 
+import android.app.Activity
 import com.jaspervanhienen.tentamen.adapter.MainAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,7 +25,7 @@ class PokemonList(): Fragment() {
 
         if(view != null) {
             val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_main)
-            val pokemonService = PokemonService(this)
+            val pokemonService = PokemonService(this.getActivity())
 
             pokemonService.getPokemon(object : VolleyCallback {
                 override fun onSuccess(result: MutableList<Pokemon>) {

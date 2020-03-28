@@ -3,6 +3,7 @@ package com.jaspervanhienen.tentamen
 import android.app.Activity
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
@@ -14,7 +15,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class PokemonService//fetch pokemon from api
-    (private var context: Activity) {
+    (private var context: FragmentActivity?) {
 
     public fun getPokemon(callback : VolleyCallback) {
         val queue = Volley.newRequestQueue(this.context)
