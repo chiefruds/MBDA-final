@@ -17,8 +17,13 @@ import com.jaspervanhienen.tentamen.DoAsync
 import com.jaspervanhienen.tentamen.PokemonService
 import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.PokemonDetail
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.pokemon_detail_row.view.*
 import kotlinx.android.synthetic.main.pokemon_details.*
+import kotlinx.android.synthetic.main.pokemon_details.view.*
+import kotlinx.android.synthetic.main.pokemon_row.*
+import kotlinx.android.synthetic.main.pokemon_row.view.*
+import kotlinx.android.synthetic.main.pokemon_row.view.textView_pokemon_name
 import org.json.JSONObject
 
 class DetailsActivity: AppCompatActivity() {
@@ -27,7 +32,6 @@ class DetailsActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pokemon_details)
         val url = intent.getStringExtra("URL") as String
-
         DoAsync {
             this.setRecycler(url)
         }
@@ -38,12 +42,18 @@ class DetailsActivity: AppCompatActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val detailRow = inflater.inflate(R.layout.pokemon_detail_row, parent, false)
+            val detail = inflater.inflate(R.layout.pokemon_details, parent, false)
 
             Log.d("name is: ", pokemonDetail.getName())
 
             return DetailViewHolder(
                 detailRow
             )
+        }
+
+        fun test() {
+
+            //detail.textView_name.text = "haa"
         }
 
         override fun getItemCount(): Int {
@@ -78,6 +88,7 @@ class DetailsActivity: AppCompatActivity() {
         val context = this
         this.pokemonService.getPokemonDetails(url, object : DetailCallback {
             override fun onSuccess(result: PokemonDetail) {
+                //Picasso.get().load(result.getSprites("front")).into(R.layout.pokemon_details.imageView_details)
                 recyclerView_details.layoutManager = LinearLayoutManager(context)
                 recyclerView_details.adapter =
                     DetailAdapter(

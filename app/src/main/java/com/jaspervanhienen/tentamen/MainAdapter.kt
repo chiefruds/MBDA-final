@@ -30,15 +30,19 @@ class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val url = this.pokemonList[position].getUrl()
+        holder.itemView.textView_pokemon_name.text = this.pokemonList[position].getName()
+        Picasso.get().load(this.getPokemonImage(url)).into(holder.itemView.imageView)
+        holder.url = url
+    }
+
+    fun getPokemonImage(url: String) : String {
         var image = ""
         val regex = """(?<=/)[0-9]+""".toRegex()
         if(regex.find(url) != null) {
             val pokemonId = regex.find(url)!!.value
             image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonId + ".png"
         }
-        holder.itemView.textView_pokemon_name.text = this.pokemonList[position].getName()
-        Picasso.get().load(image).into(holder.itemView.imageView)
-        holder.url = url
+        return image
     }
 
     override fun getFilter(): Filter {
