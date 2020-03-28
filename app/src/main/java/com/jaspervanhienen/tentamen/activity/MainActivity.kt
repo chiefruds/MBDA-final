@@ -2,21 +2,13 @@ package com.jaspervanhienen.tentamen.activity
 
 import com.jaspervanhienen.tentamen.adapter.MainAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.jaspervanhienen.tentamen.*
 import com.jaspervanhienen.tentamen.model.Pokemon
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,9 +17,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DoAsync {
-            setRecycler()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
