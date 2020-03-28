@@ -8,7 +8,9 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.jaspervanhienen.tentamen.DetailCallback
 import com.jaspervanhienen.tentamen.DoAsync
+import com.jaspervanhienen.tentamen.PokemonService
 import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.adapter.DetailAdapter
 import com.jaspervanhienen.tentamen.model.PokemonDetail
@@ -16,47 +18,70 @@ import kotlinx.android.synthetic.main.pokemon_details.*
 import org.json.JSONObject
 
 class DetailsActivity: AppCompatActivity() {
+    private var pokemonService = PokemonService(this);
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pokemon_details)
         val url = intent.getStringExtra("URL") as String
 
         DoAsync {
-            this.getPokemonDetails(url)
+            this.setRecycler(url)
         }
     }
 
-    private fun getPokemonDetails(url : String) {
-        val queue = Volley.newRequestQueue(this)
-        var pokemonResult : JSONObject
-        Log.d("detail url", url)
+    private class DetailAdapter(private val pokemonDetail: PokemonDetail): RecyclerView.Adapter<DetailViewHolder>() {
 
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            Response.Listener { response ->
-                pokemonResult = JSONObject(response)
-                this.generateDetails(pokemonResult)
-            },
-            Response.ErrorListener { Log.e("api error","That didn't work!") })
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val detailRow = inflater.inflate(R.layout.pokemon_detail_row, parent, false)
 
-        queue.add(stringRequest)
+            Log.d("name is: ", pokemonDetail.getName())
 
-    }
-
-    private fun generateDetails(pokemonResult : JSONObject) {
-        this.setRecycler(
-            PokemonDetail(
-                pokemonResult.getString("name"),
-                pokemonResult.getInt("base_experience"),
-                pokemonResult.getInt("height"),
-                pokemonResult.getInt("id"),
-                pokemonResult.getJSONObject("sprites")
+            return DetailViewHolder(
+                detailRow
             )
-        )
+        }
+
+        override fun getItemCount(): Int {
+            return pokemonDetail.count
+        }
+
+        override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
+            val headerText = when(position) {
+                0 -> "Name"
+                1 -> "base experience"
+                2 -> "Height"
+                3 -> "Id"
+                4 -> "image"
+                else -> "not available"
+            }
+
+            val contentText = when(position) {
+                0 -> pokemonDetail.getName()
+                1 -> pokemonDetail.getBaseExperience()
+                2 -> pokemonDetail.getHeight()
+                3 -> pokemonDetail.getId()
+                else -> "not available"
+            }
+
+            holder.itemView.textView_header.text = headerText
+            holder.itemView.textView_content.text = contentText.toString()
+        }
+
     }
 
-    private fun setRecycler(pokemonDetail: PokemonDetail) {
-        recyclerView_details.layoutManager = LinearLayoutManager(this)
-        recyclerView_details.adapter = DetailAdapter(pokemonDetail)
+    private fun setRecycler(url: String) {
+        val context = this
+        this.pokemonService.getPokemonDetails(url, object : DetailCallback {
+            override fun onSuccess(result: PokemonDetail) {
+                recyclerView_details.layoutManager = LinearLayoutManager(context)
+                recyclerView_details.adapter =
+                    DetailAdapter(
+                        result
+                    )
+            }
+        })
     }
+
+    private class DetailViewHolder(view: View): RecyclerView.ViewHolder(view) {}
 }
