@@ -8,51 +8,50 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.jaspervanhienen.tentamen.model.Pokemon
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
-class PokemonService {
-     fun getPokemon(context : AppCompatActivity) {
-        //val textView = findViewById<TextView>(R.id.pokemon)
+class PokemonService//fetch pokemon from api
+    (private var context: Activity) {
 
-        val queue = Volley.newRequestQueue( context)
+    public fun getPokemon(callback : VolleyCallback) {
+        val queue = Volley.newRequestQueue(this.context)
         val url = "https://pokeapi.co/api/v2/pokemon"
-        var pokemon : JSONObject
+        var pokemonResult : MutableList<Pokemon>
+        Log.d("api", "start")
 
-        // Request a string response from the provided URL.
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             Response.Listener<String> { response ->
-                // Display the first 500 characters of the response string.
-                pokemon = JSONObject(response)
-                val singlePokemon = pokemon.getJSONArray("results").getJSONObject(0).getString("name")
-                Log.d("pokemon", singlePokemon)
-                //textView.text = "Response is: " + singlePokemon
-
+                pokemonResult = this.generatePokemon(JSONObject(response))
+                callback.onSuccess(pokemonResult)
             },
-            Response.ErrorListener { Log.e("api error","That didn't work!") })
+            Response.ErrorListener { Log.e("api error","That didn't work!")})
 
         queue.add(stringRequest)
-
     }
 
-    fun getPokemonDetail(context : Activity, url : String) {
-        val queue = Volley.newRequestQueue( context)
-        val url = "https://pokeapi.co/api/v2/pokemon"
-        var pokemon : JSONObject
+    //loop over pokemon JSON and add pokemon objects to
+    private fun generatePokemon(pokemonResult: JSONObject): MutableList<Pokemon> {
+        val pokemonList = mutableListOf<Pokemon>()
+        Log.d("generate", "pre start")
+        val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
+        Log.d("generate", "start")
+        for (i in 0 until pokemonArray.length()) {
+            try {
+                val pokemon = pokemonArray.getJSONObject(i)
+                // Pulling items from the array
+                val name = pokemon.getString("name")
+                val url = pokemon.getString("url")
+                val newPokemon = Pokemon(name, url)
+                pokemonList.add(newPokemon)
 
-        // Request a string response from the provided URL.
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            Response.Listener<String> { response ->
-                // Display the first 500 characters of the response string.
-                pokemon = JSONObject(response)
-                val singlePokemon = pokemon.getJSONArray("results").getJSONObject(0).getString("name")
-                Log.d("pokemon", singlePokemon)
-                //textView.text = "Response is: " + singlePokemon
-
-            },
-            Response.ErrorListener { Log.e("api error","That didn't work!") })
-
-        queue.add(stringRequest)
+            } catch (e: JSONException) {
+                Log.e("error", e.message)
+            }
+        }
+        return pokemonList
     }
 }

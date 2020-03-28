@@ -11,8 +11,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.jaspervanhienen.tentamen.DoAsync
-import com.jaspervanhienen.tentamen.R
+import com.jaspervanhienen.tentamen.*
 import com.jaspervanhienen.tentamen.model.Pokemon
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
@@ -21,12 +20,13 @@ import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
+    private var pokemonService = PokemonService(this);
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         DoAsync {
-            getPokemon()
+            setRecycler()
         }
     }
 
@@ -58,49 +58,16 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    //fetch pokemon from api
-    private fun getPokemon() {
-        val queue = Volley.newRequestQueue(this)
-        val url = "https://pokeapi.co/api/v2/pokemon"
-        var pokemonResult : JSONObject
-
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            Response.Listener<String> { response ->
-                pokemonResult = JSONObject(response)
-                this.generatePokemon(pokemonResult)
-            },
-            Response.ErrorListener { Log.e("api error","That didn't work!") })
-
-        queue.add(stringRequest)
-    }
-
-    //loop over pokemon JSON and add pokemon objects to
-    private fun generatePokemon(pokemonResult: JSONObject): MutableList<Pokemon> {
-        val pokemonList = mutableListOf<Pokemon>()
-        val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
-        for (i in 0 until pokemonArray.length()) {
-            try {
-                val pokemon = pokemonArray.getJSONObject(i)
-                // Pulling items from the array
-                val name = pokemon.getString("name")
-                val url = pokemon.getString("url")
-                val newPokemon = Pokemon(name, url)
-                pokemonList.add(newPokemon)
-
-            } catch (e: JSONException) {
-                Log.e("error", e.message)
-            }
-        }
-
-        return pokemonList
-    }
-
     //set the recycler view
-    private fun setRecycler(pokemonList: MutableList<Pokemon>) {
-        recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter =
-            MainAdapter(pokemonList)
+    private fun setRecycler() {
+        var context = this
+        this.pokemonService.getPokemon(object : VolleyCallback {
+            override fun onSuccess(pokemonList: MutableList<Pokemon>) {
+                recyclerView_main.layoutManager = LinearLayoutManager(context)
+                recyclerView_main.adapter = MainAdapter(pokemonList)
+            }
+        })
+
     }
 
 }
