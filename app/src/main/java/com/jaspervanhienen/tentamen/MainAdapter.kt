@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso
 import com.jaspervanhienen.tentamen.viewholder.MainViewHolder
 import kotlinx.android.synthetic.main.pokemon_row.view.*
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
