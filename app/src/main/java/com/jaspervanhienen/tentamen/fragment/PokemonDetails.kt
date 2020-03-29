@@ -23,21 +23,20 @@ class PokemonDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View? = inflater.inflate(R.layout.pokemon_details, container, false)
-
+        Log.d("INFO:", "got here")
         if(view != null) {
             val pokemonService = PokemonService(this.activity)
-
+            Log.d("detail", "detail")
             val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_details)
             val nameView = view.findViewById<TextView>(R.id.textView_pokemon_name)
             val imageView = view.findViewById<ImageView>(R.id.imageView_details)
 
             Log.d("INFO:", "got here")
 
-            pokemonService.getPokemonDetails("https://pokeapi.co/api/v2/pokemon/1/", object : DetailCallback {
+            pokemonService.getPokemonDetails("https://pokeapi.co/api/v2/pokemon/8/", object : DetailCallback {
                 override fun onSuccess(result: PokemonDetail) {
                     recyclerView.adapter = DetailAdapter(result)
                     recyclerView.layoutManager = LinearLayoutManager(context)
-                    nameView.text = result.getName()
                 }
             })
         }
