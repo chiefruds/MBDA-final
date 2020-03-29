@@ -1,16 +1,16 @@
 package com.jaspervanhienen.tentamen.activity
 
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.net.Uri
 import com.jaspervanhienen.tentamen.adapter.MainAdapter
-import android.os.Bundle
 import android.telephony.SmsManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import com.jaspervanhienen.tentamen.*
-import com.jaspervanhienen.tentamen.fragment.PokemonDetails
 import com.jaspervanhienen.tentamen.fragment.PokemonList
 import com.jaspervanhienen.tentamen.model.Pokemon
 import kotlinx.android.synthetic.main.pokemon_list.*
@@ -54,7 +54,21 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        val settingsItem = menu.findItem(R.id.settings_bar)
+        settingsItem.setOnMenuItemClickListener {
+            Log.d("menu", "settings clicked!")
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent);
+            true
+        }
+
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        Log.d("menu", "settings clicked!")
+        return super.onOptionsItemSelected(item)
     }
 
     fun openBrowser(item: MenuItem) {

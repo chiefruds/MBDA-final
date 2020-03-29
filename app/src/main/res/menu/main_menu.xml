@@ -7,6 +7,11 @@
         android:title="@string/search"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item
+        android:id="@+id/settings_bar"
+        android:title="settings"
+        />
     <item
         android:id="@+id/open_browser"
         android:icon="@drawable/ic_tobrowser"

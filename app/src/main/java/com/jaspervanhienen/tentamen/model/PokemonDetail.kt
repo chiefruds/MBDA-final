@@ -9,7 +9,6 @@ class PokemonDetail(
     private var id: Int,
     private var sprites: JSONObject
 ) {
-    val count = 5
 
     fun getName() : String {
         return this.name
@@ -27,7 +26,7 @@ class PokemonDetail(
         return this.id
     }
 
-    fun getSprites(type : String) : String {
+    fun getSprite(type : String) : String {
         return when (type) {
             "back_default" -> sprites.getString("back_default")
             "back_female" -> sprites.getString("back_female")
