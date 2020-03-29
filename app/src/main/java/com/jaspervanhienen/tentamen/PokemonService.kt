@@ -3,6 +3,7 @@ package com.jaspervanhienen.tentamen
 import android.app.Activity
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
@@ -15,9 +16,9 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class PokemonService//fetch pokemon from api
-    (private var context: Activity) {
+    (private var context: FragmentActivity?) {
 
-    public fun getPokemon(callback : PokemonListCallback) {
+    fun getPokemon(callback : PokemonListCallback) {
         val queue = Volley.newRequestQueue(this.context)
         val url = "https://pokeapi.co/api/v2/pokemon"
         var pokemonResult : MutableList<Pokemon>
@@ -37,9 +38,7 @@ class PokemonService//fetch pokemon from api
     //loop over pokemon JSON and add pokemon objects to
     private fun generatePokemon(pokemonResult: JSONObject): MutableList<Pokemon> {
         val pokemonList = mutableListOf<Pokemon>()
-        Log.d("generate", "pre start")
         val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
-        Log.d("generate", "start")
         for (i in 0 until pokemonArray.length()) {
             try {
                 val pokemon = pokemonArray.getJSONObject(i)
@@ -57,10 +56,9 @@ class PokemonService//fetch pokemon from api
     }
 
     //details
-    public fun getPokemonDetails(url : String, callback: DetailCallback) {
+    fun getPokemonDetails(url : String, callback: DetailCallback) {
         val queue = Volley.newRequestQueue(this.context)
         var pokemonResult : JSONObject
-        Log.d("detail url", url)
 
         val stringRequest = StringRequest(
             Request.Method.GET, url,

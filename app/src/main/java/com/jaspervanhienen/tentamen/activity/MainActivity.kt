@@ -2,32 +2,29 @@ package com.jaspervanhienen.tentamen.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
+import android.net.Uri
+import com.jaspervanhienen.tentamen.adapter.MainAdapter
+import android.telephony.SmsManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.jaspervanhienen.tentamen.*
+import com.jaspervanhienen.tentamen.fragment.PokemonList
 import com.jaspervanhienen.tentamen.model.Pokemon
-import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-
+import kotlinx.android.synthetic.main.pokemon_list.*
 
 class MainActivity : AppCompatActivity() {
-    private var pokemonService = PokemonService(this);
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        DoAsync {
-            setRecycler()
+
+        if(savedInstanceState == null) {
+            val fragment = PokemonList()
+            this.getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, fragment)
+                .commit();
         }
 
     }
@@ -73,17 +70,22 @@ class MainActivity : AppCompatActivity() {
         Log.d("menu", "settings clicked!")
         return super.onOptionsItemSelected(item)
     }
-    //set the recycler view
-    private fun setRecycler() {
-        var context = this
-        this.pokemonService.getPokemon(object : PokemonListCallback {
-            override fun onSuccess(pokemonList: MutableList<Pokemon>) {
-                recyclerView_main.layoutManager = LinearLayoutManager(context)
-                recyclerView_main.adapter = MainAdapter(pokemonList)
-            }
-        })
 
+    fun openBrowser(item: MenuItem) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_VIEW
+        intent.data = Uri.parse("https://www.pokemon.com/nl/pokedex/")
+
+        if(intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
+    fun sendSms(item: MenuItem) {
+        val smsManager = SmsManager.getDefault()
+        smsManager.sendTextMessage("+31658924280", null,
+            "Hoi Jasper, ik ga een lekker bakje koffie voor je halen, tot zo!",
+            null, null)
+    }
 }
 

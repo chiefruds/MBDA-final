@@ -12,4 +12,16 @@
         android:id="@+id/settings_bar"
         android:title="settings"
         />
+    <item
+        android:id="@+id/open_browser"
+        android:icon="@drawable/ic_tobrowser"
+        android:title="Open browser"
+        app:showAsAction="collapseActionView"
+        android:onClick="openBrowser"/>
+    <item
+        android:id="@+id/send_sms"
+        android:icon="@drawable/ic_tobrowser"
+        android:title="Maak Jasper blij"
+        app:showAsAction="collapseActionView"
+        android:onClick="sendSms"/>
 </menu>

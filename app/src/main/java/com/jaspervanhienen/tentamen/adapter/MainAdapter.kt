@@ -1,4 +1,4 @@
-package com.jaspervanhienen.tentamen
+package com.jaspervanhienen.tentamen.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.model.Pokemon
-import com.squareup.picasso.Picasso
 import com.jaspervanhienen.tentamen.viewholder.MainViewHolder
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.pokemon_row.view.*
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
@@ -35,12 +35,12 @@ class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.
         holder.url = url
     }
 
-    fun getPokemonImage(url: String) : String {
+    private fun getPokemonImage(url: String) : String {
         var image = ""
         val regex = """(?<=/)[0-9]+""".toRegex()
         if(regex.find(url) != null) {
             val pokemonId = regex.find(url)!!.value
-            image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonId + ".png"
+            image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png"
         }
         return image
     }
