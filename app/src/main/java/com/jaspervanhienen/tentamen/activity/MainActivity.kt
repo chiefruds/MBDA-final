@@ -12,8 +12,6 @@ import kotlinx.android.synthetic.main.pokemon_list.*
 
 
 class MainActivity : AppCompatActivity() {
-    private var pokemonService = PokemonService(this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,18 +44,5 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
-
-    //set the recycler view
-    private fun setRecycler() {
-        val context = this
-        this.pokemonService.getPokemon(object : PokemonListCallback {
-            override fun onSuccess(result: MutableList<Pokemon>) {
-                recyclerView_main.layoutManager = LinearLayoutManager(context)
-                recyclerView_main.adapter = MainAdapter(result)
-            }
-        })
-
-    }
-
 }
 

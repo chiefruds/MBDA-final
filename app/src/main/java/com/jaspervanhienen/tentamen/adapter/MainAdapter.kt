@@ -17,10 +17,6 @@ import kotlin.collections.ArrayList
 class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
     private val pokemonListCopy: MutableList<Pokemon> = pokemonList.toMutableList()
 
-    init {
-        Log.d("Info", "Got here")
-    }
-
     override fun getItemCount(): Int {
         return this.pokemonList.count()
     }
