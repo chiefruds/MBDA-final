@@ -20,24 +20,21 @@ class DetailAdapter(private val pokemonDetail: PokemonDetail): RecyclerView.Adap
     }
 
     override fun getItemCount(): Int {
-        return pokemonDetail.count
+        return 3
     }
 
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
         val headerText = when(position) {
-            0 -> "Name"
-            1 -> "base experience"
-            2 -> "Height"
-            3 -> "Id"
-            4 -> "image"
+            0 -> "base experience"
+            1 -> "Height"
+            2 -> "Id"
             else -> "not available"
         }
 
         val contentText = when(position) {
-            0 -> pokemonDetail.getName()
-            1 -> pokemonDetail.getBaseExperience()
-            2 -> pokemonDetail.getHeight()
-            3 -> pokemonDetail.getId()
+            0 -> pokemonDetail.getBaseExperience()
+            1 -> pokemonDetail.getHeight()
+            2 -> pokemonDetail.getId()
             else -> "not available"
         }
 
