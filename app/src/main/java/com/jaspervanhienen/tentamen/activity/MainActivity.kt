@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import com.jaspervanhienen.tentamen.adapter.MainAdapter
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -53,6 +54,13 @@ class MainActivity : AppCompatActivity() {
         if(intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         }
+    }
+
+    fun sendSms(item: MenuItem) {
+        val smsManager = SmsManager.getDefault()
+        smsManager.sendTextMessage("+31658924280", null,
+            "Hoi Jasper, ik ga een lekker bakje koffie voor je halen, tot zo!",
+            null, null)
     }
 }
 
