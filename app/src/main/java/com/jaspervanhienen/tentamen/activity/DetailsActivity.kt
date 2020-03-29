@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.pokemon_detail_row.view.*
 import kotlinx.android.synthetic.main.pokemon_details.*
 
 class DetailsActivity: AppCompatActivity() {
-    private var pokemonService = PokemonService(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pokemon_details)

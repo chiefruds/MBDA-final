@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jaspervanhienen.tentamen.PokemonListCallback
 import com.jaspervanhienen.tentamen.PokemonService
@@ -27,6 +28,7 @@ class PokemonList(): Fragment() {
             pokemonService.getPokemon(object : PokemonListCallback {
                 override fun onSuccess(result: MutableList<Pokemon>) {
                     recyclerView.adapter = MainAdapter(result)
+                    recyclerView.layoutManager = LinearLayoutManager(context)
                 }
             })
         }

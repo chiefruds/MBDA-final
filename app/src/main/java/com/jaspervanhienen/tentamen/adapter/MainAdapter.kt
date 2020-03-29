@@ -1,5 +1,6 @@
 package com.jaspervanhienen.tentamen.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -15,6 +16,10 @@ import kotlin.collections.ArrayList
 
 class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.Adapter<MainViewHolder>(), Filterable {
     private val pokemonListCopy: MutableList<Pokemon> = pokemonList.toMutableList()
+
+    init {
+        Log.d("Info", "Got here")
+    }
 
     override fun getItemCount(): Int {
         return this.pokemonList.count()
@@ -34,12 +39,12 @@ class MainAdapter(private var pokemonList : MutableList<Pokemon>): RecyclerView.
         holder.url = url
     }
 
-    fun getPokemonImage(url: String) : String {
+    private fun getPokemonImage(url: String) : String {
         var image = ""
         val regex = """(?<=/)[0-9]+""".toRegex()
         if(regex.find(url) != null) {
             val pokemonId = regex.find(url)!!.value
-            image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonId + ".png"
+            image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png"
         }
         return image
     }
