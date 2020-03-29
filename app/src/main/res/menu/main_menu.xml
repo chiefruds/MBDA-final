@@ -11,7 +11,8 @@
     <item
         android:id="@+id/settings_bar"
         android:title="settings"
-        />
+        app:showAsAction="collapseActionView"
+        android:onClick="openSettings"/>
     <item
         android:id="@+id/open_browser"
         android:icon="@drawable/ic_tobrowser"

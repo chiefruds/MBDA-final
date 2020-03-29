@@ -26,6 +26,10 @@ class PokemonList(): Fragment() {
             val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_main)
             val pokemonService = PokemonService(this.activity)
 
+            //set empty data to prevent error
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = MainAdapter(mutableListOf<Pokemon>())
+
             //fetch pokemon and start the recycler view
             DoAsync {
                 pokemonService.getPokemon(object : PokemonListCallback {

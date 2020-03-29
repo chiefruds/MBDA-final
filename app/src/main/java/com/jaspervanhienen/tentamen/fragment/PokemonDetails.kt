@@ -17,6 +17,7 @@ import com.jaspervanhienen.tentamen.DoAsync
 import com.jaspervanhienen.tentamen.PokemonService
 import com.jaspervanhienen.tentamen.R
 import com.jaspervanhienen.tentamen.adapter.DetailAdapter
+import com.jaspervanhienen.tentamen.adapter.MainAdapter
 import com.jaspervanhienen.tentamen.model.PokemonDetail
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.pokemon_row.view.*
@@ -41,6 +42,10 @@ class PokemonDetails : Fragment() {
 
             val name = view.findViewById(R.id.textView_name) as TextView
             val image = view.findViewById<ImageView>(R.id.imageView_details)
+
+            //set empty data to prevent error
+            recyclerView.adapter = MainAdapter(mutableListOf())
+            recyclerView.layoutManager = LinearLayoutManager(context)
 
             //fetch all pokemon and start recycler view
             DoAsync {
