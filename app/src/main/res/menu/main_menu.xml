@@ -7,4 +7,16 @@
         android:title="@string/search"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+    <item
+        android:id="@+id/open_browser"
+        android:icon="@drawable/ic_tobrowser"
+        android:title="Open browser"
+        app:showAsAction="collapseActionView"
+        android:onClick="openBrowser"/>
+    <item
+        android:id="@+id/send_sms"
+        android:icon="@drawable/ic_tobrowser"
+        android:title="Maak Jasper blij"
+        app:showAsAction="collapseActionView"
+        android:onClick="sendSms"/>
 </menu>
