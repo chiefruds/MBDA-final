@@ -1,8 +1,11 @@
 package com.jaspervanhienen.tentamen.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,10 +26,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         DoAsync {
             setRecycler()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,9 +57,22 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        val settingsItem = menu.findItem(R.id.settings_bar)
+        settingsItem.setOnMenuItemClickListener {
+            Log.d("menu", "settings clicked!")
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent);
+            true
+        }
+
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        Log.d("menu", "settings clicked!")
+        return super.onOptionsItemSelected(item)
+    }
     //set the recycler view
     private fun setRecycler() {
         var context = this
