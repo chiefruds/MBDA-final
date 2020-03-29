@@ -38,9 +38,7 @@ class PokemonService//fetch pokemon from api
     //loop over pokemon JSON and add pokemon objects to
     private fun generatePokemon(pokemonResult: JSONObject): MutableList<Pokemon> {
         val pokemonList = mutableListOf<Pokemon>()
-        Log.d("generate", "pre start")
         val pokemonArray: JSONArray = pokemonResult.getJSONArray("results")
-        Log.d("generate", "start")
         for (i in 0 until pokemonArray.length()) {
             try {
                 val pokemon = pokemonArray.getJSONObject(i)
@@ -61,7 +59,6 @@ class PokemonService//fetch pokemon from api
     fun getPokemonDetails(url : String, callback: DetailCallback) {
         val queue = Volley.newRequestQueue(this.context)
         var pokemonResult : JSONObject
-        Log.d("detail url", url)
 
         val stringRequest = StringRequest(
             Request.Method.GET, url,

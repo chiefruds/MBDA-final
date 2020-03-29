@@ -18,18 +18,6 @@ class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
             val intent = Intent(view.context, DetailsActivity::class.java)
             intent.putExtra("URL", url)
             view.context.startActivity(intent)
-
-//            val firstFragment = PokemonDetails()
-//            firstFragment.arguments = intent.extras
-//            val transaction = fragmentManager.beginTransaction()
-//            transaction.add(R.id.LinearLayout1, firstFragment)
-//            transaction.commit()
-
-//            val fragment = PokemonDetails()
-//            val activity = view.context as AppCompatActivity
-//            activity.getSupportFragmentManager().beginTransaction()
-//               .replace(R.id.container, fragment)
-//                .commit();
       }
     }
 }

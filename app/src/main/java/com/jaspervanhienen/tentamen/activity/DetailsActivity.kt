@@ -13,12 +13,9 @@ class DetailsActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        Log.d("real url: ", )
-
         if(savedInstanceState == null) {
-            val activity = this
             val fragment = PokemonDetails()
-            activity.getSupportFragmentManager().beginTransaction()
+            this.getSupportFragmentManager().beginTransaction()
                 .add(R.id.details, fragment)
                 .commit();
         }

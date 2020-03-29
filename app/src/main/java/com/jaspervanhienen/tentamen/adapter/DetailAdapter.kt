@@ -14,8 +14,6 @@ class DetailAdapter(private val pokemonDetail: PokemonDetail): RecyclerView.Adap
         val inflater = LayoutInflater.from(parent.context)
         val detailRow = inflater.inflate(R.layout.pokemon_detail_row, parent, false)
 
-        Log.d("name is: ", pokemonDetail.getName())
-
         return DetailViewHolder(
             detailRow
         )

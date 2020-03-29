@@ -21,9 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if(savedInstanceState == null) {
-            val activity = this
             val fragment = PokemonList()
-            activity.getSupportFragmentManager().beginTransaction()
+            this.getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)
                 .commit();
         }
