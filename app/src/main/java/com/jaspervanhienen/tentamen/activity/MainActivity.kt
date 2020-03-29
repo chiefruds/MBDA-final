@@ -8,11 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jaspervanhienen.tentamen.*
 import com.jaspervanhienen.tentamen.model.Pokemon
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.pokemon_list.*
 
 
 class MainActivity : AppCompatActivity() {
-    private var pokemonService = PokemonService(this);
+    private var pokemonService = PokemonService(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,11 +50,11 @@ class MainActivity : AppCompatActivity() {
 
     //set the recycler view
     private fun setRecycler() {
-        var context = this
+        val context = this
         this.pokemonService.getPokemon(object : PokemonListCallback {
-            override fun onSuccess(pokemonList: MutableList<Pokemon>) {
+            override fun onSuccess(result: MutableList<Pokemon>) {
                 recyclerView_main.layoutManager = LinearLayoutManager(context)
-                recyclerView_main.adapter = MainAdapter(pokemonList)
+                recyclerView_main.adapter = MainAdapter(result)
             }
         })
 

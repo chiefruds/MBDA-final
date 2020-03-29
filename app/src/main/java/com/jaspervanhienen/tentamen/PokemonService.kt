@@ -18,7 +18,7 @@ import org.json.JSONObject
 class PokemonService//fetch pokemon from api
     (private var context: FragmentActivity?) {
 
-    public fun getPokemon(callback : PokemonListCallback) {
+    fun getPokemon(callback : PokemonListCallback) {
         val queue = Volley.newRequestQueue(this.context)
         val url = "https://pokeapi.co/api/v2/pokemon"
         var pokemonResult : MutableList<Pokemon>
@@ -58,7 +58,7 @@ class PokemonService//fetch pokemon from api
     }
 
     //details
-    public fun getPokemonDetails(url : String, callback: DetailCallback) {
+    fun getPokemonDetails(url : String, callback: DetailCallback) {
         val queue = Volley.newRequestQueue(this.context)
         var pokemonResult : JSONObject
         Log.d("detail url", url)
