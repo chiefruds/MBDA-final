@@ -54,23 +54,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        val settingsItem = menu.findItem(R.id.settings_bar)
-        settingsItem.setOnMenuItemClickListener {
-            Log.d("menu", "settings clicked!")
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent);
-            true
-        }
 
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        Log.d("menu", "settings clicked!")
-        return super.onOptionsItemSelected(item)
+    fun openSettings(item: MenuItem) {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent);
     }
-
     fun openBrowser(item: MenuItem) {
         val intent = Intent()
         intent.action = Intent.ACTION_VIEW

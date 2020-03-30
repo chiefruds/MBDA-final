@@ -15,7 +15,10 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:launchMode="singleTop">
+            <meta-data
+            android:name="android.support.ACTIVITY"
+            android:value=".activity.SettingsActivity" /></activity>
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTop">
