@@ -1,17 +1,25 @@
 package com.jaspervanhienen.tentamen.fragment
 
+import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import androidx.preference.*
 import com.jaspervanhienen.tentamen.R
 
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+   var context = activity
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        Log.d("rootkey", "root" + rootKey)
         setPreferencesFromResource(R.xml.preferences, rootKey)
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        updateSummary(preferenceScreen)
     }
 
     override fun onSharedPreferenceChanged(
@@ -22,9 +30,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun updateSummary(p: Preference): String {
-        val preferences: SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(activity)
-        p.summary = ""
+        if(context == null)
+            context = activity
+        val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            p.summary = ""
+        //Log.d("preference", "p" + preferences.all)
         if (p is EditTextPreference) {
             p.setSummary(preferences.getString(p.getKey(), ""))
         } else if (p is ListPreference) {
@@ -61,6 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 )
             }
         }
+       // Log.d("summary", p.summary.toString())
         return p.summary.toString()
     }
 }
