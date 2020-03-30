@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/search_bar"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item
+        android:id="@+id/settings_bar"
+        android:title="settings"
+        app:showAsAction="collapseActionView"
+        android:onClick="openSettings"/>
+    <item
+        android:id="@+id/open_browser"
+        android:icon="@drawable/ic_tobrowser"
+        android:title="Open browser"
+        app:showAsAction="collapseActionView"
+        android:onClick="openBrowser"/>
+    <item
+        android:id="@+id/send_sms"
+        android:icon="@drawable/ic_tobrowser"
+        android:title="Maak Jasper blij"
+        app:showAsAction="collapseActionView"
+        android:onClick="sendSms"/>
+</menu>
