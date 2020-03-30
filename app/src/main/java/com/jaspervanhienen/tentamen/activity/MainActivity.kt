@@ -73,10 +73,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendSms(item: MenuItem) {
-        val smsManager = SmsManager.getDefault()
-        smsManager.sendTextMessage("+31658924280", null,
-            "Hoi Jasper, ik ga een lekker bakje koffie voor je halen, tot zo!",
-            null, null)
+        try {
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(
+                "+31658924280", null,
+                "Hoi Jasper, ik ga een lekker bakje koffie voor je halen, tot zo!",
+                null, null)
+
+        } catch(e : Exception) {
+            Log.d("Sms error", "error while sending message")
+        }
     }
 }
 

@@ -22,7 +22,6 @@ class PokemonService//fetch pokemon from api
         val queue = Volley.newRequestQueue(this.context)
         val url = "https://pokeapi.co/api/v2/pokemon"
         var pokemonResult : MutableList<Pokemon>
-        Log.d("api", "start")
 
         val stringRequest = StringRequest(
             Request.Method.GET, url,
